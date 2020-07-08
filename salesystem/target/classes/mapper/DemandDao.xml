@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcsj.sale.dao.DemandDao">
+	<insert id="insertDemand">
+		<!-- ignore 主键冲突，报错 -->
+		INSERT ignore INTO demand (custom_id, goods_id,goods_name,current_state)
+		VALUES (#{customId},#{goodsId},#{goodsName},#{currentState})
+	</insert>
+	
+	<select id="queryByKeyWithCustomer" resultType="Demand">
+		<!-- 如何告诉MyBatis把结果映射到Demand同时映射customer属性 -->
+		<!-- 可以自由控制SQL -->
+		SELECT
+			a.custom_id,
+			a.goods_id,
+			a.goods_name,
+			a.current_state,
+			a.saler_id,
+		 	b.custom_id "customer.custom_id",
+			b.custom_name "customer.custom_name",
+			b.custom_phon "customer.custom_phon"<!-- 如果想要获得customer对象的值，则需要“customer.字段名或者属性名 ” -->
+		FROM
+			demand a
+		INNER JOIN customer b ON a.custom_id = b.custom_id
+		WHERE
+			a.custom_id = #{customId}
+		AND a.goods_id = #{goodsId}
+	</select>
+	
+	<select id="getCurrentState" resultType="string">
+		SELECT
+			current_state
+		FROM
+			demand
+		WHERE custom_id = #{customId}
+		    AND goods_id = #{goodsId}
+	
+	</select>
+	
+	<update id="updateCurrentState">
+		UPDATE demand
+		SET
+		current_state = #{currentState}
+		WHERE custom_id = #{customId}
+		      AND goods_id = #{goodsId}
+	</update>
+</mapper>

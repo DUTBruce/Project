@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcsj.sale.dao.SupplyDao">
+	 <insert id="addSupply">
+		INSERT  INTO supply(supply_id,supply_name,goods_id,goods_name)
+		VALUES (#{suppyId},#{supplyName},#{goodsId},#{goodsName})
+	</insert>
+	<delete id="deleteSupply">
+	DELETE FROM supply where supply_id=#{supplyId}
+	</delete>
+	
+	
+	
+	<select id="getSupply" resultType="Supply">
+		SELECT
+			supply_id,
+			supply_name,
+			goods_id,
+			goods_name
+		FROM
+			supply
+		WHERE supply_id=#{supplyId}
+	</select>
+
+	<select id="getAllSupply" resultType="Supply" >
+		SELECT
+			supply_id,
+			supply_name,
+			goods_id,
+			goods_name
+		FROM
+			supply
+		ORDER BY
+			supply_id
+	</select>
+ 	<update id="updateSupply">
+		UPDATE supply
+		SET  supply_name=#{supplyName},
+			 goods_id=#{goodsId},
+			 goods_name=#{goodsName}
+		WHERE
+			supply_id = #{supplyId}
+	</update>
+	
+</mapper>

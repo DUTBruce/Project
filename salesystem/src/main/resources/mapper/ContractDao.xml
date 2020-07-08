@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcsj.sale.dao.ContractDao">
+	<insert id="addContract">
+		<!-- ignore 主键冲突，报错 -->
+		INSERT ignore INTO contract (custom_id, goods_id,saler_id,number,price,time)
+		VALUES (#{customId},#{goodsId},#{saleId},#{number},#{price},#{time})
+	</insert>
+	
+	<delete id="deleteContract">
+	DELETE FROM contract where custom_id=#{customId} and goods_id=#{goodsId} and saler_id=#{saleId}
+	</delete>
+	
+	<!-- 可能返回Contract为空 -->
+	<select id="getContract" resultType="Contract">
+		SELECT
+			custom_id,
+			goods_id,
+			saler_id,
+			number,
+			price,
+			time
+		FROM
+			contract
+		WHERE custom_id = #{customId}
+		    AND goods_id = #{goodsId}
+		    AND saler_id = #{saleId}
+
+	</select>
+</mapper>

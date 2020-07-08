@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcsj.sale.dao.GoodsDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="queryById" resultType="Goods" parameterType="int">
+		<!-- 具体的sql -->
+		SELECT
+			goods_id,
+			goods_name,
+			goods_price,
+			goods_amount,
+			supply_id
+		FROM
+			goods
+		WHERE
+			goods_id = #{goodsId}
+	</select>
+	
+	<select id="queryAll" resultType="Goods">
+		SELECT
+			goods_id,
+			goods_name,
+			goods_price,
+			goods_amount,
+			supply_id
+		FROM
+			goods
+		ORDER BY
+			goods_id
+		LIMIT #{offset}, #{limit}
+	</select>
+	
+	<update id="reduceNumber">
+		UPDATE goods
+		SET goods_amount = goods_amount - 1
+		WHERE
+			goods_id = #{goodsId}
+		AND goods_amount > 0
+	</update>
+	
+	<select id="getSupplyId" resultType="int" >
+		SELECT supply_id
+		FROM goods
+		WHERE goods_id=#{goodsId}
+	</select>
+	<insert id="addGoods">
+	INSERT  INTO goods(goods_id,goods_name,goods_price,goods_amount,supply_id)
+		VALUES (#{goodsId},#{goodsName},#{goodsPrice},#{goodsAmount},#{supplyId})
+	</insert>
+	
+</mapper>

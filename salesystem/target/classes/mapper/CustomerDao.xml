@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcsj.sale.dao.CustomerDao">
+	<insert id="addCustomer">
+		<!-- ignore 主键冲突，报错 -->
+		INSERT INTO customer(custom_id, custom_name,custom_phon,custom_addr)
+		VALUES (#{customId},#{customName},#{customPhone},#{customAddr})
+	</insert>
+	
+	<delete id="deleteCustomer">
+	DELETE FROM customer where custom_id=#{customId}
+	</delete>
+	
+	<!--  
+	<update id="updateCustomer">
+		UPDATE customer
+		SET
+		current_state = #{currentState}
+		WHERE custom_id = #{customId}
+		      AND goods_id = #{goodsId}
+	</update>
+	-->
+	
+	<!-- 可能返回Customer为空 -->
+	<select id="getCustomer" resultType="Customer">
+		SELECT
+			custom_id, custom_name,custom_phon,custom_addr
+		FROM
+			customer
+		WHERE custom_id = #{customId}
+
+	</select>
+</mapper>
